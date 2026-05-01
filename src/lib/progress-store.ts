@@ -182,7 +182,8 @@ export async function recordAttempt(
         break;
       }
     }
-    if (weekDays[weekDays.length - 1].status !== "passed") break;
+    const currentWeekDays = Object.values(progress.weeks[weekStr].days);
+    if (!currentWeekDays.every((d) => d.status === "passed")) break;
   }
   progress.current_streak_days = streak;
 

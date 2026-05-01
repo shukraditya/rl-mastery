@@ -113,9 +113,19 @@ export default async function ResultsPage({ params }: { params: Promise<{ wid: s
           Retake Quiz
         </a>
         {passed ? (
-          <a href={`/week/${week}/day/${day + 1}/quiz`} className={styles.btn}>
-            Next Day →
-          </a>
+          day < 7 ? (
+            <a href={`/week/${week}/day/${day + 1}/quiz`} className={styles.btn}>
+              Next Day →
+            </a>
+          ) : week < 8 ? (
+            <a href={`/week/${week + 1}/day/1/quiz`} className={styles.btn}>
+              Next Week →
+            </a>
+          ) : (
+            <a href="/" className={styles.btn}>
+              Finish →
+            </a>
+          )
         ) : (
           <a href={`/week/${week}`} className={styles.btn}>
             Back to Week
