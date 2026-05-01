@@ -1,7 +1,22 @@
 import { Redis } from "@upstash/redis";
 import { ProgressData, DayProgress, WeekProgress, QuizResult } from "./types";
 
-const redis = Redis.fromEnv();
+const memoryStore = new Map<string, string>();
+
+const memoryRedis = {
+  async get<T>(key: string): Promise<T | null> {
+    const val = memoryStore.get(key);
+    return val ? (JSON.parse(val) as T) : null;
+  },
+  async set(key: string, value: unknown): Promise<void> {
+    memoryStore.set(key, JSON.stringify(value));
+  },
+};
+
+const redis =
+  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+    ? Redis.fromEnv()
+    : memoryRedis;
 
 function createInitialProgress(userId: string): ProgressData {
   const weeks: Record<string, WeekProgress> = {};
