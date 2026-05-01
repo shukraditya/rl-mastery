@@ -46,7 +46,7 @@ export default async function RootLayout({
               </div>
               <div className="nav-actions">
                 <ThemeToggle />
-                <AuthButton />
+                {isAuthed && <AuthButton />}
               </div>
             </nav>
           </header>
