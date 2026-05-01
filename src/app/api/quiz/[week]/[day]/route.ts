@@ -15,5 +15,9 @@ export async function GET(
   }
 
   const clientQuiz = stripAnswers(quiz);
-  return NextResponse.json(clientQuiz);
+  return NextResponse.json(clientQuiz, {
+    headers: {
+      'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400',
+    },
+  });
 }
