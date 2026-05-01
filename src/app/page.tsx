@@ -10,8 +10,24 @@ export const dynamic = 'force-dynamic';
 export default async function Dashboard() {
   const session = await auth();
   const userId = session?.user?.email ?? null;
-  const progress = userId ? await loadProgress(userId) : null;
 
+  if (!userId) {
+    return (
+      <div className={styles.page}>
+        <section className={styles.hero}>
+          <h1 className={styles.heroTitle}>RL Mastery</h1>
+          <p className={styles.heroSubtitle}>
+            8 weeks. 56 days. Build deep intuition for reinforcement learning.
+          </p>
+          <a href="/api/auth/signin" className={styles.cta}>
+            Sign in with Google
+          </a>
+        </section>
+      </div>
+    );
+  }
+
+  const progress = await loadProgress(userId);
   const quizzes = await listAvailableQuizzes();
 
   const weekMap = new Map<number, { title: string; days: number }>();
@@ -57,23 +73,20 @@ export default async function Dashboard() {
   const currentStreak = progress?.current_streak_days ?? 0;
   const totalAttempts = progress?.total_attempts ?? 0;
 
-  // Find next available day
   let continueWeek = 1;
   let continueDay = 1;
-  if (progress) {
-    for (let w = 1; w <= 8; w++) {
-      const weekProg = progress.weeks[String(w)];
-      if (!weekProg) continue;
-      for (let d = 1; d <= 7; d++) {
-        const dayProg = weekProg.days[String(d)];
-        if (dayProg?.status === 'available') {
-          continueWeek = w;
-          continueDay = d;
-          break;
-        }
+  for (let w = 1; w <= 8; w++) {
+    const weekProg = progress.weeks[String(w)];
+    if (!weekProg) continue;
+    for (let d = 1; d <= 7; d++) {
+      const dayProg = weekProg.days[String(d)];
+      if (dayProg?.status === 'available') {
+        continueWeek = w;
+        continueDay = d;
+        break;
       }
-      if (continueWeek !== w || continueDay !== 1) break;
     }
+    if (continueWeek !== w || continueDay !== 1) break;
   }
 
   return (
@@ -83,28 +96,20 @@ export default async function Dashboard() {
         <p className={styles.heroSubtitle}>
           8 weeks. 56 days. Build deep intuition for reinforcement learning.
         </p>
-        {userId ? (
-          <a href={`/week/${continueWeek}/day/${continueDay}/quiz`} className={styles.cta}>
-            {totalPassed === 0 ? 'Start Day 1' : 'Continue Learning'}
-          </a>
-        ) : (
-          <p className={styles.signinHint}>
-            Sign in to track your progress across sessions.
-          </p>
-        )}
+        <a href={`/week/${continueWeek}/day/${continueDay}/quiz`} className={styles.cta}>
+          {totalPassed === 0 ? 'Start Day 1' : 'Continue Learning'}
+        </a>
       </section>
 
-      {userId && (
-        <section className={styles.stats}>
-          <span>{currentStreak} day streak</span>
-          <span>&middot;</span>
-          <span>{totalPassed} of {totalDays} days passed</span>
-          <span>&middot;</span>
-          <span>{totalAttempts} attempts</span>
-          <span>&middot;</span>
-          <span>{overallPct}% complete</span>
-        </section>
-      )}
+      <section className={styles.stats}>
+        <span>{currentStreak} day streak</span>
+        <span>&middot;</span>
+        <span>{totalPassed} of {totalDays} days passed</span>
+        <span>&middot;</span>
+        <span>{totalAttempts} attempts</span>
+        <span>&middot;</span>
+        <span>{overallPct}% complete</span>
+      </section>
 
       <section>
         <h2 className={styles.sectionTitle}>Curriculum</h2>
