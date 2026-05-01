@@ -1,27 +1,39 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2rem;
 }
 
 .hero {
-  padding: 2rem 0 3rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 0 1.5rem;
   border-bottom: 1px solid var(--border);
 }
 
+.heroText {
+  min-width: 0;
+}
+
 .heroTitle {
-  font-size: 2.5rem;
-  line-height: 1.2;
-  margin-bottom: 1rem;
+  font-size: 2rem;
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
   letter-spacing: -0.01em;
 }
 
 .heroSubtitle {
-  font-size: 1.125rem;
+  font-size: 1rem;
   color: var(--secondary);
-  margin-bottom: 2rem;
-  max-width: 36rem;
-  line-height: 1.6;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.heroCta {
+  display: flex;
+  align-items: center;
 }
 
 .cta {
@@ -34,6 +46,7 @@
   font-weight: 500;
   text-decoration: none;
   letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 .cta:hover {
@@ -42,59 +55,103 @@
   text-decoration: none;
 }
 
-.bodyText {
-  font-size: 1.0625rem;
-  line-height: 1.7;
+.metaStrip {
+  display: flex;
+  gap: 1.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.metaStrip span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.metaNum {
   color: var(--text);
-  max-width: 40rem;
-}
-
-.bodyText p + p {
-  margin-top: 1.25rem;
-}
-
-.section {
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.section:last-child {
-  border-bottom: none;
+  font-weight: 600;
+  font-size: 1rem;
 }
 
 .sectionTitle {
-  font-size: 1.25rem;
-  font-weight: 400;
-  margin-bottom: 1rem;
-  color: var(--text);
-}
-
-.curriculumGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-  gap: 1rem;
-}
-
-.weekCard {
-  padding: 1.25rem;
-  border: 1px solid var(--border);
-  background: var(--card);
-}
-
-.weekNum {
   font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.curriculumGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.weekCard {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.weekNum {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
 }
 
 .weekTitle {
-  font-size: 1rem;
-  line-height: 1.4;
+  font-size: 0.9375rem;
+  line-height: 1.35;
   color: var(--text);
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.feature {
+  border-left: 2px solid var(--border);
+  padding-left: 1rem;
+}
+
+.featureTitle {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+.featureDesc {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--secondary);
+}
+
+.bottomCta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 0.5rem;
+}
+
+.bottomHint {
+  font-size: 0.875rem;
+  color: var(--muted);
 }
 
 .stats {
@@ -114,14 +171,24 @@
   gap: 1rem;
 }
 
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .curriculumGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .features {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 640px) {
   .grid {
     grid-template-columns: 1fr;
   }
-  .curriculumGrid {
-    grid-template-columns: 1fr;
-  }
   .heroTitle {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 }

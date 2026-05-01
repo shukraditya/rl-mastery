@@ -27,34 +27,27 @@ export default async function Dashboard() {
     return (
       <div className={styles.page}>
         <section className={styles.hero}>
-          <h1 className={styles.heroTitle}>Build Deep Intuition for Reinforcement Learning</h1>
-          <p className={styles.heroSubtitle}>
-            8 weeks. 56 days. One quiz at a time. RL Mastery is a structured curriculum
-            designed to take you from Bellman equations to production-grade RLHF systems.
-          </p>
-          <a href="/api/auth/signin" className={styles.cta}>Sign in with Google</a>
-        </section>
-
-        <section className={styles.section}>
-          <div className={styles.bodyText}>
-            <p>
-              Reinforcement learning is the engine behind modern AI breakthroughs — from
-              AlphaGo to ChatGPT, from robotics to reasoning models. Yet most learners
-              get lost in the math without ever building the gut feeling for why these
-              algorithms work. RL Mastery fixes that.
+          <div className={styles.heroText}>
+            <h1 className={styles.heroTitle}>Master Reinforcement Learning</h1>
+            <p className={styles.heroSubtitle}>
+              A daily quiz curriculum that builds intuition from Bellman equations to RLHF.
             </p>
-            <p>
-              Every day you tackle a short, targeted quiz that forces active recall on
-              the concepts that matter. No passive video watching. No endless notebooks.
-              Just consistent, deliberate practice across value-based methods, policy
-              gradients, proximal policy optimization, reward modeling, direct preference
-              optimization, and the latest reasoning RL techniques powering models like DeepSeek-R1.
-            </p>
+          </div>
+          <div className={styles.heroCta}>
+            <a href="/api/auth/signin" className={styles.cta}>
+              Sign in with Google
+            </a>
           </div>
         </section>
 
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>The Curriculum</h2>
+        <div className={styles.metaStrip}>
+          <span><span className={styles.metaNum}>8</span> Weeks</span>
+          <span><span className={styles.metaNum}>56</span> Days</span>
+          <span><span className={styles.metaNum}>240+</span> Questions</span>
+        </div>
+
+        <section>
+          <h2 className={styles.sectionTitle}>Curriculum</h2>
           <div className={styles.curriculumGrid}>
             {themes.slice(1).map((title, i) => (
               <div key={i} className={styles.weekCard}>
@@ -65,18 +58,32 @@ export default async function Dashboard() {
           </div>
         </section>
 
-        <section>
-          <div className={styles.bodyText}>
-            <p>
-              Progress is tracked per-user and persists across sessions. Pass a day to
-              unlock the next. Miss a question and the system tags your weak areas so
-              you know exactly what to revisit. By the end of 56 days, you will not just
-              understand RL — you will think in rewards, policies, and advantage estimates.
-            </p>
+        <section className={styles.features}>
+          <div className={styles.feature}>
+            <div className={styles.featureTitle}>Active Recall</div>
+            <div className={styles.featureDesc}>
+              Daily quizzes force you to retrieve concepts, not just re-read them.
+            </div>
           </div>
-          <a href="/api/auth/signin" className={styles.cta} style={{ marginTop: '1.5rem' }}>
-            Start Learning — Sign in with Google
+          <div className={styles.feature}>
+            <div className={styles.featureTitle}>Adaptive Progression</div>
+            <div className={styles.featureDesc}>
+              Pass a day to unlock the next. Weak tags show exactly what to revisit.
+            </div>
+          </div>
+          <div className={styles.feature}>
+            <div className={styles.featureTitle}>Production-Ready</div>
+            <div className={styles.featureDesc}>
+              From DQN to GRPO — learn the algorithms behind modern LLM training pipelines.
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.bottomCta}>
+          <a href="/api/auth/signin" className={styles.cta}>
+            Start Learning
           </a>
+          <span className={styles.bottomHint}>Free. Sign in with Google to track progress.</span>
         </section>
       </div>
     );
@@ -147,22 +154,26 @@ export default async function Dashboard() {
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <h1 className={styles.heroTitle}>RL Mastery</h1>
-        <p className={styles.heroSubtitle}>
-          8 weeks. 56 days. Build deep intuition for reinforcement learning.
-        </p>
-        <a href={`/week/${continueWeek}/day/${continueDay}/quiz`} className={styles.cta}>
-          {totalPassed === 0 ? 'Start Day 1' : 'Continue Learning'}
-        </a>
+        <div className={styles.heroText}>
+          <h1 className={styles.heroTitle}>RL Mastery</h1>
+          <p className={styles.heroSubtitle}>
+            8 weeks. 56 days. Build deep intuition for reinforcement learning.
+          </p>
+        </div>
+        <div className={styles.heroCta}>
+          <a href={`/week/${continueWeek}/day/${continueDay}/quiz`} className={styles.cta}>
+            {totalPassed === 0 ? 'Start Day 1' : 'Continue Learning'}
+          </a>
+        </div>
       </section>
 
       <section className={styles.stats}>
         <span>{currentStreak} day streak</span>
-        <span>&middot;</span>
+        <span>·</span>
         <span>{totalPassed} of {totalDays} days passed</span>
-        <span>&middot;</span>
+        <span>·</span>
         <span>{totalAttempts} attempts</span>
-        <span>&middot;</span>
+        <span>·</span>
         <span>{overallPct}% complete</span>
       </section>
 
