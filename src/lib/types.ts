@@ -56,7 +56,6 @@ export interface DayProgress {
   attempts: number;
   last_attempt_at: string | null;
   weak_tags: string[];
-  last_result?: QuizResult;
 }
 
 export interface WeekProgress {

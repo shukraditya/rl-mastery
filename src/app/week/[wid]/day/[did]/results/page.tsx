@@ -1,4 +1,4 @@
-import { loadProgress } from '@/lib/progress-store';
+import { loadProgress, loadResult } from '@/lib/progress-store';
 import { auth } from '@/auth';
 import MathText from '@/components/MathText';
 import styles from './page.module.css';
@@ -14,7 +14,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ wid: s
   const userId = session?.user?.email ?? null;
   const progress = userId ? await loadProgress(userId) : null;
   const dayProg = progress?.weeks[String(week)]?.days[String(day)];
-  const result = dayProg?.last_result;
+  const result = userId ? await loadResult(userId, week, day) : null;
 
   if (!result) {
     return (
