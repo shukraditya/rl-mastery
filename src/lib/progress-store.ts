@@ -97,7 +97,8 @@ export async function loadProgress(userId: string): Promise<ProgressData> {
     await saveProgress(userId, initial);
     return initial;
   }
-  const plaintext = decrypt(raw);
+  const rawStr = typeof raw === "string" ? raw : JSON.stringify(raw);
+  const plaintext = decrypt(rawStr);
   return JSON.parse(plaintext) as ProgressData;
 }
 
