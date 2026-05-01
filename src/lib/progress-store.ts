@@ -1,3 +1,4 @@
+import { createHash, randomBytes, createCipheriv, createDecipheriv } from "crypto";
 import { Redis } from "@upstash/redis";
 import { ProgressData, DayProgress, WeekProgress, QuizResult } from "./types";
 
@@ -17,6 +18,45 @@ const redis =
   process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
     ? Redis.fromEnv()
     : memoryRedis;
+
+// Derive a 32-byte encryption key from DATA_ENCRYPTION_KEY or AUTH_SECRET
+function getEncryptionKey(): Buffer {
+  const raw = process.env.DATA_ENCRYPTION_KEY || process.env.AUTH_SECRET || "";
+  if (!raw) {
+    throw new Error(
+      "DATA_ENCRYPTION_KEY or AUTH_SECRET must be set for encryption"
+    );
+  }
+  return createHash("sha256").update(raw).digest();
+}
+
+const ENCRYPTION_PREFIX = "enc:";
+
+function encrypt(text: string): string {
+  const key = getEncryptionKey();
+  const iv = randomBytes(16);
+  const cipher = createCipheriv("aes-256-gcm", key, iv);
+  const encrypted = Buffer.concat([cipher.update(text, "utf8"), cipher.final()]);
+  const authTag = cipher.getAuthTag();
+  const payload = Buffer.concat([iv, authTag, encrypted]).toString("base64");
+  return ENCRYPTION_PREFIX + payload;
+}
+
+function decrypt(encrypted: string): string {
+  if (!encrypted.startsWith(ENCRYPTION_PREFIX)) {
+    // Plaintext fallback for legacy data
+    return encrypted;
+  }
+  const payload = Buffer.from(encrypted.slice(ENCRYPTION_PREFIX.length), "base64");
+  const iv = payload.subarray(0, 16);
+  const authTag = payload.subarray(16, 32);
+  const ciphertext = payload.subarray(32);
+  const key = getEncryptionKey();
+  const decipher = createDecipheriv("aes-256-gcm", key, iv);
+  decipher.setAuthTag(authTag);
+  const decrypted = Buffer.concat([decipher.update(ciphertext), decipher.final()]);
+  return decrypted.toString("utf8");
+}
 
 function createInitialProgress(userId: string): ProgressData {
   const weeks: Record<string, WeekProgress> = {};
@@ -51,20 +91,23 @@ function progressKey(userId: string): string {
 }
 
 export async function loadProgress(userId: string): Promise<ProgressData> {
-  const data = await redis.get<string>(progressKey(userId));
-  if (!data) {
+  const raw = await redis.get<string>(progressKey(userId));
+  if (!raw) {
     const initial = createInitialProgress(userId);
     await saveProgress(userId, initial);
     return initial;
   }
-  return JSON.parse(data) as ProgressData;
+  const plaintext = decrypt(raw);
+  return JSON.parse(plaintext) as ProgressData;
 }
 
 export async function saveProgress(
   userId: string,
   progress: ProgressData
 ): Promise<void> {
-  await redis.set(progressKey(userId), JSON.stringify(progress));
+  const json = JSON.stringify(progress);
+  const ciphertext = encrypt(json);
+  await redis.set(progressKey(userId), ciphertext);
 }
 
 export async function recordAttempt(
