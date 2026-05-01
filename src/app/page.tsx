@@ -78,13 +78,6 @@ export default async function Dashboard() {
             </div>
           </div>
         </section>
-
-        <section className={styles.bottomCta}>
-          <a href="/api/auth/signin" className={styles.cta}>
-            Start Learning
-          </a>
-          <span className={styles.bottomHint}>Free. Sign in with Google to track progress.</span>
-        </section>
       </div>
     );
   }
