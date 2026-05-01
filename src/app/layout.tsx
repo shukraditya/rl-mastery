@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import "katex/dist/katex.min.css";
 import ThemeToggle from "@/components/ThemeToggle";
+import AuthButton from "@/components/AuthButton";
 
 export const metadata: Metadata = {
   title: "RL Mastery Quiz",
@@ -26,17 +28,22 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
-        <header className="app-header">
-          <nav className="app-nav">
-            <a href="/" className="nav-brand">RL Mastery</a>
-            <div className="nav-links">
-              <a href="/" className="nav-link">Dashboard</a>
-              <a href="/progress" className="nav-link">Progress</a>
-            </div>
-            <ThemeToggle />
-          </nav>
-        </header>
-        <main className="app-main">{children}</main>
+        <SessionProvider>
+          <header className="app-header">
+            <nav className="app-nav">
+              <a href="/" className="nav-brand">RL Mastery</a>
+              <div className="nav-links">
+                <a href="/" className="nav-link">Dashboard</a>
+                <a href="/progress" className="nav-link">Progress</a>
+              </div>
+              <div className="nav-actions">
+                <ThemeToggle />
+                <AuthButton />
+              </div>
+            </nav>
+          </header>
+          <main className="app-main">{children}</main>
+        </SessionProvider>
       </body>
     </html>
   );

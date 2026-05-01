@@ -55,8 +55,12 @@ export default function QuizPage() {
       try {
         await submitQuiz(week, day, answersRef.current);
         router.push(`/week/${week}/day/${day}/results`);
-      } catch {
-        setError('Failed to submit quiz');
+      } catch (err: any) {
+        if (err.status === 401) {
+          setError('signin_required');
+        } else {
+          setError('Failed to submit quiz');
+        }
       }
     }
   }, [quiz, currentIdx, week, day, router]);
@@ -65,6 +69,16 @@ export default function QuizPage() {
     return (
       <div className={styles.center}>
         <p>Loading quiz...</p>
+      </div>
+    );
+  }
+  if (error === 'signin_required') {
+    return (
+      <div className={styles.center}>
+        <p style={{ marginBottom: '1rem' }}>Sign in to save your progress.</p>
+        <a href="/api/auth/signin" className={styles.backLink} style={{ color: 'var(--accent)' }}>
+          Sign in with Google →
+        </a>
       </div>
     );
   }

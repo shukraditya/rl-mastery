@@ -1,16 +1,15 @@
-import fs from 'fs/promises';
-import path from 'path';
-import { ProgressData, DayProgress, WeekProgress, QuizResult } from './types';
+import { Redis } from "@upstash/redis";
+import { ProgressData, DayProgress, WeekProgress, QuizResult } from "./types";
 
-const PROGRESS_PATH = path.join(process.cwd(), 'data', 'progress.json');
+const redis = Redis.fromEnv();
 
-function createInitialProgress(): ProgressData {
+function createInitialProgress(userId: string): ProgressData {
   const weeks: Record<string, WeekProgress> = {};
   for (let w = 1; w <= 8; w++) {
     const days: Record<string, DayProgress> = {};
     for (let d = 1; d <= 7; d++) {
       days[String(d)] = {
-        status: w === 1 && d === 1 ? 'available' : 'locked',
+        status: w === 1 && d === 1 ? "available" : "locked",
         best_score: 0,
         attempts: 0,
         last_attempt_at: null,
@@ -18,13 +17,13 @@ function createInitialProgress(): ProgressData {
       };
     }
     weeks[String(w)] = {
-      status: w === 1 ? 'in_progress' : 'locked',
+      status: w === 1 ? "in_progress" : "locked",
       days,
     };
   }
 
   return {
-    student_id: 'default',
+    student_id: userId,
     started_at: new Date().toISOString(),
     weeks,
     total_attempts: 0,
@@ -32,27 +31,32 @@ function createInitialProgress(): ProgressData {
   };
 }
 
-export async function loadProgress(): Promise<ProgressData> {
-  try {
-    const content = await fs.readFile(PROGRESS_PATH, 'utf-8');
-    return JSON.parse(content) as ProgressData;
-  } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
-      const initial = createInitialProgress();
-      await saveProgress(initial);
-      return initial;
-    }
-    throw err;
+function progressKey(userId: string): string {
+  return `progress:${userId}`;
+}
+
+export async function loadProgress(userId: string): Promise<ProgressData> {
+  const data = await redis.get<string>(progressKey(userId));
+  if (!data) {
+    const initial = createInitialProgress(userId);
+    await saveProgress(userId, initial);
+    return initial;
   }
+  return JSON.parse(data) as ProgressData;
 }
 
-export async function saveProgress(progress: ProgressData): Promise<void> {
-  await fs.mkdir(path.dirname(PROGRESS_PATH), { recursive: true });
-  await fs.writeFile(PROGRESS_PATH, JSON.stringify(progress, null, 2), 'utf-8');
+export async function saveProgress(
+  userId: string,
+  progress: ProgressData
+): Promise<void> {
+  await redis.set(progressKey(userId), JSON.stringify(progress));
 }
 
-export async function recordAttempt(result: QuizResult): Promise<ProgressData> {
-  const progress = await loadProgress();
+export async function recordAttempt(
+  userId: string,
+  result: QuizResult
+): Promise<ProgressData> {
+  const progress = await loadProgress(userId);
   const w = String(result.week);
   const d = String(result.day);
 
@@ -71,9 +75,9 @@ export async function recordAttempt(result: QuizResult): Promise<ProgressData> {
   day.last_result = result;
 
   if (result.passed) {
-    day.status = 'passed';
+    day.status = "passed";
   } else {
-    day.status = 'failed_last';
+    day.status = "failed_last";
   }
 
   progress.total_attempts += 1;
@@ -82,16 +86,16 @@ export async function recordAttempt(result: QuizResult): Promise<ProgressData> {
   if (result.passed) {
     const nextDay = String(result.day + 1);
     if (progress.weeks[w].days[nextDay]) {
-      if (progress.weeks[w].days[nextDay].status === 'locked') {
-        progress.weeks[w].days[nextDay].status = 'available';
+      if (progress.weeks[w].days[nextDay].status === "locked") {
+        progress.weeks[w].days[nextDay].status = "available";
       }
     } else {
       // End of week, unlock next week day 1
       const nextWeek = String(result.week + 1);
       if (progress.weeks[nextWeek]) {
-        progress.weeks[nextWeek].status = 'in_progress';
-        if (progress.weeks[nextWeek].days['1'].status === 'locked') {
-          progress.weeks[nextWeek].days['1'].status = 'available';
+        progress.weeks[nextWeek].status = "in_progress";
+        if (progress.weeks[nextWeek].days["1"].status === "locked") {
+          progress.weeks[nextWeek].days["1"].status = "available";
         }
       }
     }
@@ -99,11 +103,11 @@ export async function recordAttempt(result: QuizResult): Promise<ProgressData> {
 
   // Recalculate week status
   const weekDays = Object.values(progress.weeks[w].days);
-  const allPassed = weekDays.every((day) => day.status === 'passed');
+  const allPassed = weekDays.every((day) => day.status === "passed");
   if (allPassed) {
-    progress.weeks[w].status = 'complete';
-  } else if (weekDays.some((day) => day.status !== 'locked')) {
-    progress.weeks[w].status = 'in_progress';
+    progress.weeks[w].status = "complete";
+  } else if (weekDays.some((day) => day.status !== "locked")) {
+    progress.weeks[w].status = "in_progress";
   }
 
   // Streak: count consecutive passed days from day 1 forward
@@ -113,16 +117,16 @@ export async function recordAttempt(result: QuizResult): Promise<ProgressData> {
     if (!progress.weeks[weekStr]) break;
     for (let dayNum = 1; dayNum <= 7; dayNum++) {
       const dayStr = String(dayNum);
-      if (progress.weeks[weekStr].days[dayStr]?.status === 'passed') {
+      if (progress.weeks[weekStr].days[dayStr]?.status === "passed") {
         streak++;
       } else {
         break;
       }
     }
-    if (weekDays[weekDays.length - 1].status !== 'passed') break;
+    if (weekDays[weekDays.length - 1].status !== "passed") break;
   }
   progress.current_streak_days = streak;
 
-  await saveProgress(progress);
+  await saveProgress(userId, progress);
   return progress;
 }

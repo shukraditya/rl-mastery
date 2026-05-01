@@ -1,5 +1,6 @@
 import { listAvailableQuizzes } from '@/lib/yaml-loader';
 import { loadProgress } from '@/lib/progress-store';
+import { auth } from '@/auth';
 import WeekCard from '@/components/WeekCard';
 import { WeekSummary } from '@/lib/types';
 import styles from './page.module.css';
@@ -7,8 +8,11 @@ import styles from './page.module.css';
 export const dynamic = 'force-dynamic';
 
 export default async function Dashboard() {
+  const session = await auth();
+  const userId = session?.user?.email ?? null;
+  const progress = userId ? await loadProgress(userId) : null;
+
   const quizzes = await listAvailableQuizzes();
-  const progress = await loadProgress();
 
   const weekMap = new Map<number, { title: string; days: number }>();
   for (const q of quizzes) {
@@ -26,7 +30,7 @@ export default async function Dashboard() {
   let totalDays = 0;
   for (let w = 1; w <= 8; w++) {
     const meta = weekMap.get(w);
-    const weekProg = progress.weeks[String(w)];
+    const weekProg = progress?.weeks[String(w)];
     const daysCompleted = Object.values(weekProg?.days || {}).filter(
       (d) => d.status === 'passed'
     ).length;
@@ -50,24 +54,26 @@ export default async function Dashboard() {
   }
 
   const overallPct = totalDays > 0 ? Math.round((totalPassed / totalDays) * 100) : 0;
-  const currentStreak = progress.current_streak_days;
-  const totalAttempts = progress.total_attempts;
+  const currentStreak = progress?.current_streak_days ?? 0;
+  const totalAttempts = progress?.total_attempts ?? 0;
 
   // Find next available day
   let continueWeek = 1;
   let continueDay = 1;
-  for (let w = 1; w <= 8; w++) {
-    const weekProg = progress.weeks[String(w)];
-    if (!weekProg) continue;
-    for (let d = 1; d <= 7; d++) {
-      const dayProg = weekProg.days[String(d)];
-      if (dayProg?.status === 'available') {
-        continueWeek = w;
-        continueDay = d;
-        break;
+  if (progress) {
+    for (let w = 1; w <= 8; w++) {
+      const weekProg = progress.weeks[String(w)];
+      if (!weekProg) continue;
+      for (let d = 1; d <= 7; d++) {
+        const dayProg = weekProg.days[String(d)];
+        if (dayProg?.status === 'available') {
+          continueWeek = w;
+          continueDay = d;
+          break;
+        }
       }
+      if (continueWeek !== w || continueDay !== 1) break;
     }
-    if (continueWeek !== w || continueDay !== 1) break;
   }
 
   return (
@@ -77,20 +83,28 @@ export default async function Dashboard() {
         <p className={styles.heroSubtitle}>
           8 weeks. 56 days. Build deep intuition for reinforcement learning.
         </p>
-        <a href={`/week/${continueWeek}/day/${continueDay}/quiz`} className={styles.cta}>
-          {totalPassed === 0 ? 'Start Day 1' : 'Continue Learning'}
-        </a>
+        {userId ? (
+          <a href={`/week/${continueWeek}/day/${continueDay}/quiz`} className={styles.cta}>
+            {totalPassed === 0 ? 'Start Day 1' : 'Continue Learning'}
+          </a>
+        ) : (
+          <p className={styles.signinHint}>
+            Sign in to track your progress across sessions.
+          </p>
+        )}
       </section>
 
-      <section className={styles.stats}>
-        <span>{currentStreak} day streak</span>
-        <span>&middot;</span>
-        <span>{totalPassed} of {totalDays} days passed</span>
-        <span>&middot;</span>
-        <span>{totalAttempts} attempts</span>
-        <span>&middot;</span>
-        <span>{overallPct}% complete</span>
-      </section>
+      {userId && (
+        <section className={styles.stats}>
+          <span>{currentStreak} day streak</span>
+          <span>&middot;</span>
+          <span>{totalPassed} of {totalDays} days passed</span>
+          <span>&middot;</span>
+          <span>{totalAttempts} attempts</span>
+          <span>&middot;</span>
+          <span>{overallPct}% complete</span>
+        </section>
+      )}
 
       <section>
         <h2 className={styles.sectionTitle}>Curriculum</h2>

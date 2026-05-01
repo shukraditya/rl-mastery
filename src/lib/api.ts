@@ -1,12 +1,6 @@
-import { WeekSummary, QuizForClient, QuizResult, ProgressData, QuizSubmission, GradedAnswer } from './types';
+import { QuizForClient, QuizResult, QuizSubmission, GradedAnswer } from './types';
 
 const BASE = '';
-
-export async function getWeeks(): Promise<WeekSummary[]> {
-  const res = await fetch(`${BASE}/api/weeks`);
-  if (!res.ok) throw new Error('Failed to load weeks');
-  return res.json();
-}
 
 export async function getQuiz(week: number, day: number): Promise<QuizForClient> {
   const res = await fetch(`${BASE}/api/quiz/${week}/${day}`);
@@ -30,12 +24,10 @@ export async function submitQuiz(week: number, day: number, answers: Record<stri
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ answers } as QuizSubmission),
   });
-  if (!res.ok) throw new Error('Failed to submit quiz');
-  return res.json();
-}
-
-export async function getProgress(): Promise<ProgressData> {
-  const res = await fetch(`${BASE}/api/progress`);
-  if (!res.ok) throw new Error('Failed to load progress');
+  if (!res.ok) {
+    const err = new Error('Failed to submit quiz') as Error & { status?: number };
+    err.status = res.status;
+    throw err;
+  }
   return res.json();
 }

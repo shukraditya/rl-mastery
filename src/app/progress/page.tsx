@@ -1,14 +1,17 @@
 import { loadProgress } from '@/lib/progress-store';
+import { auth } from '@/auth';
 import styles from './page.module.css';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ProgressPage() {
-  const progress = await loadProgress();
+  const session = await auth();
+  const userId = session?.user?.email ?? null;
+  const progress = userId ? await loadProgress(userId) : null;
 
   const allDays: { week: number; day: number; score: number; status: string }[] = [];
   for (let w = 1; w <= 8; w++) {
-    const weekProg = progress.weeks[String(w)];
+    const weekProg = progress?.weeks[String(w)];
     if (!weekProg) continue;
     for (let d = 1; d <= 7; d++) {
       const dayProg = weekProg.days[String(d)];
@@ -20,7 +23,7 @@ export default async function ProgressPage() {
 
   const weakTagCounts: Record<string, number> = {};
   for (const day of allDays) {
-    const tags = progress.weeks[String(day.week)]?.days[String(day.day)]?.weak_tags || [];
+    const tags = progress?.weeks[String(day.week)]?.days[String(day.day)]?.weak_tags || [];
     for (const tag of tags) {
       weakTagCounts[tag] = (weakTagCounts[tag] || 0) + 1;
     }
@@ -38,7 +41,7 @@ export default async function ProgressPage() {
   const heatmap: { w: number; d: number; status: string; score: number }[][] = [];
   for (let w = 1; w <= 8; w++) {
     const row: { w: number; d: number; status: string; score: number }[] = [];
-    const weekProg = progress.weeks[String(w)];
+    const weekProg = progress?.weeks[String(w)];
     for (let d = 1; d <= 7; d++) {
       const dayProg = weekProg?.days[String(d)];
       row.push({
@@ -67,9 +70,9 @@ export default async function ProgressPage() {
         <span>·</span>
         <span>{overallPct}% complete</span>
         <span>·</span>
-        <span>{progress.current_streak_days} day streak</span>
+        <span>{progress?.current_streak_days ?? 0} day streak</span>
         <span>·</span>
-        <span>{progress.total_attempts} attempts</span>
+        <span>{progress?.total_attempts ?? 0} attempts</span>
         <span>·</span>
         <span>{avgScore}% average</span>
       </section>

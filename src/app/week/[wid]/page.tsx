@@ -1,5 +1,6 @@
 import { loadProgress } from '@/lib/progress-store';
 import { loadQuizYaml } from '@/lib/yaml-loader';
+import { auth } from '@/auth';
 import DayButton from '@/components/DayButton';
 import styles from './page.module.css';
 
@@ -9,8 +10,10 @@ export default async function WeekPage({ params }: { params: Promise<{ wid: stri
   const { wid } = await params;
   const weekNum = parseInt(wid, 10);
 
-  const progress = await loadProgress();
-  const weekProg = progress.weeks[String(weekNum)];
+  const session = await auth();
+  const userId = session?.user?.email ?? null;
+  const progress = userId ? await loadProgress(userId) : null;
+  const weekProg = progress?.weeks[String(weekNum)];
 
   const days = await Promise.all(
     Array.from({ length: 7 }, async (_, i) => {

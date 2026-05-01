@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RL Mastery
 
-## Getting Started
+8 weeks. 56 days. Build deep intuition for reinforcement learning — one quiz at a time.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router, Turbopack)
+- **Auth.js v5** — Google OAuth
+- **Upstash Redis** — per-user progress persistence
+- **KaTeX** — math rendering in questions, answers, and explanations
+- **E-ink inspired UI** — minimal, clean, zero animations
+
+## Local Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Create a `.env.local` from `.env.example` and fill in the required secrets.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | How to get |
+|---|---|
+| `AUTH_SECRET` | `openssl rand -base64 32` |
+| `AUTH_GOOGLE_ID` | Google Cloud Console → APIs & Services → Credentials → OAuth 2.0 Client ID |
+| `AUTH_GOOGLE_SECRET` | Same as above |
+| `UPSTASH_REDIS_REST_URL` | Upstash Console → Redis database → REST API → URL |
+| `UPSTASH_REDIS_REST_TOKEN` | Upstash Console → Redis database → REST API → Token |
 
-## Learn More
+### Google OAuth Setup
 
-To learn more about Next.js, take a look at the following resources:
+1. Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials).
+2. Create an **OAuth 2.0 Client ID** (Web application).
+3. Add the authorized redirect URI:
+   - Production: `https://yourdomain.com/api/auth/callback/google`
+   - Local: `http://localhost:3000/api/auth/callback/google`
+4. Copy the Client ID and Client Secret into your env vars.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Upstash Redis Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Go to [Upstash Console](https://console.upstash.com/redis).
+2. Create a new Redis database (free tier is sufficient).
+3. Copy the `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` into your env vars.
 
-## Deploy on Vercel
+## Deploy to Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Push this repo to GitHub.
+2. Import the repo on [Vercel](https://vercel.com/new).
+3. Add the environment variables in the Vercel dashboard (Settings → Environment Variables).
+4. Redeploy.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Features
+
+- **Per-user progress tracking** — sign in with Google, your progress is isolated and persistent.
+- **Adaptive unlocking** — pass a day to unlock the next one.
+- **Weak tag analysis** — see which topics you miss most often.
+- **Dark / light mode** — toggle in the nav, respects system preference by default.
+- **LaTeX math** — auto-rendered in questions, options, explanations, and correct answers.
