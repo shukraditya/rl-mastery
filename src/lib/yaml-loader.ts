@@ -1,11 +1,13 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { cache } from 'react';
+import { unstable_cache } from 'next/cache';
 import yaml from 'js-yaml';
 import { QuizYaml, QuizForClient, ClientQuestion } from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'data', 'questions');
 
-export async function loadQuizYaml(week: number, day: number): Promise<QuizYaml | null> {
+export const loadQuizYaml = cache(async (week: number, day: number): Promise<QuizYaml | null> => {
   const filePath = path.join(DATA_DIR, `week${String(week).padStart(2, '0')}`, `day${String(day).padStart(2, '0')}.yaml`);
   try {
     const content = await fs.readFile(filePath, 'utf-8');
@@ -17,7 +19,7 @@ export async function loadQuizYaml(week: number, day: number): Promise<QuizYaml 
     }
     throw err;
   }
-}
+});
 
 export function stripAnswers(quiz: QuizYaml): QuizForClient {
   const questions: ClientQuestion[] = quiz.questions.map((q) => {
@@ -43,7 +45,7 @@ export function stripAnswers(quiz: QuizYaml): QuizForClient {
   };
 }
 
-export async function listAvailableQuizzes(): Promise<{ week: number; day: number; title: string }[]> {
+async function _listAvailableQuizzes(): Promise<{ week: number; day: number; title: string }[]> {
   const quizzes: { week: number; day: number; title: string }[] = [];
   try {
     const weeks = await fs.readdir(DATA_DIR);
@@ -68,3 +70,9 @@ export async function listAvailableQuizzes(): Promise<{ week: number; day: numbe
   }
   return quizzes;
 }
+
+export const listAvailableQuizzes = unstable_cache(
+  _listAvailableQuizzes,
+  ['quiz-list'],
+  { revalidate: 3600 }
+);

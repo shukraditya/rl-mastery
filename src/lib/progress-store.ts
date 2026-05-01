@@ -1,4 +1,5 @@
 import { createHash, randomBytes, createCipheriv, createDecipheriv } from "crypto";
+import { cache } from "react";
 import { Redis } from "@upstash/redis";
 import { ProgressData, DayProgress, WeekProgress, QuizResult } from "./types";
 
@@ -90,7 +91,7 @@ function progressKey(userId: string): string {
   return `progress:${userId}`;
 }
 
-export async function loadProgress(userId: string): Promise<ProgressData> {
+export const loadProgress = cache(async (userId: string): Promise<ProgressData> => {
   const raw = await redis.get<string>(progressKey(userId));
   if (!raw) {
     const initial = createInitialProgress(userId);
@@ -100,7 +101,7 @@ export async function loadProgress(userId: string): Promise<ProgressData> {
   const rawStr = typeof raw === "string" ? raw : JSON.stringify(raw);
   const plaintext = decrypt(rawStr);
   return JSON.parse(plaintext) as ProgressData;
-}
+});
 
 export async function saveProgress(
   userId: string,
