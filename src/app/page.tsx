@@ -2,6 +2,7 @@ import { listAvailableQuizzes } from '@/lib/yaml-loader';
 import { loadProgress } from '@/lib/progress-store';
 import { auth } from '@/auth';
 import WeekCard from '@/components/WeekCard';
+import SignInButton from '@/components/SignInButton';
 import { WeekSummary } from '@/lib/types';
 import styles from './page.module.css';
 
@@ -34,9 +35,7 @@ export default async function Dashboard() {
             </p>
           </div>
           <div className={styles.heroCta}>
-            <a href="/api/auth/signin/google" className={styles.cta}>
-              Sign in with Google
-            </a>
+            <SignInButton className={styles.cta}>Sign in with Google</SignInButton>
           </div>
         </section>
 
