@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@auth/upstash-redis-adapter": "^2.11.2",
     "@upstash/redis": "^1.37.0",
     "js-yaml": "^4.1.1",
     "katex": "^0.16.45",
