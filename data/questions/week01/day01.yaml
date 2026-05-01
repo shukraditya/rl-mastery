@@ -1,0 +1,56 @@
+week: 1
+day: 1
+title: "MDPs & the Bellman Equation"
+description: "Theory day covering MDPs, policies, value functions, and the Bellman equation as a fixed-point."
+passing_threshold: 0.80
+questions:
+  - id: w1d1_q1
+    type: multiple_choice
+    text: "What does the Bellman optimality equation represent?"
+    options:
+      - "A fixed-point equation that recursively defines the optimal value function"
+      - "A linear programming formulation of MDPs"
+      - "A stochastic gradient descent update rule"
+      - "A model-free sampling technique"
+    correct_index: 0
+    explanation: "The Bellman optimality equation is a fixed-point equation: V*(s) = max_a E[r + γV*(s')]. It recursively defines the optimal value of a state in terms of the optimal values of successor states."
+    tags: [bellman, theory, mdp]
+
+  - id: w1d1_q2
+    type: multiple_choice
+    text: "Why is the Bellman operator a contraction mapping in max-norm?"
+    options:
+      - "Because the discount factor γ < 1 shrinks the distance between value vectors"
+      - "Because the reward function is bounded"
+      - "Because the state space is finite"
+      - "Because the policy is deterministic"
+    correct_index: 0
+    explanation: "The Bellman operator T satisfies ||T(V1) - T(V2)||_∞ ≤ γ||V1 - V2||_∞. Since γ < 1, it is a contraction in the sup-norm, guaranteeing convergence to a unique fixed point by the Banach fixed-point theorem."
+    tags: [contraction, theory, fixed_point]
+
+  - id: w1d1_q3
+    type: numeric
+    text: "In a 4×4 gridworld with γ = 0.9, if moving right from state 0 gives immediate reward +1 and lands in state 1 with V(1) = 5, what is the Bellman backup value for the (state=0, action=right) transition?"
+    correct: 5.5
+    tolerance: 0.01
+    explanation: "The Bellman backup is r + γV(s') = 1 + 0.9 × 5 = 5.5. This is the expected return for taking this action in this state."
+    tags: [bellman, gridworld, numeric]
+
+  - id: w1d1_q4
+    type: multiple_choice
+    text: "What guarantee does a contraction mapping provide?"
+    options:
+      - "Iterative application converges to a unique fixed point regardless of initialization"
+      - "The fixed point is reached in a finite number of steps"
+      - "All policies are optimal"
+      - "The value function is linear"
+    correct_index: 0
+    explanation: "Banach fixed-point theorem: a contraction mapping on a complete metric space has exactly one fixed point, and iterating the mapping from any starting point converges to it."
+    tags: [contraction, theory, fixed_point]
+
+  - id: w1d1_q5
+    type: free_text
+    text: "Explain in one sentence why online bootstrapping with function approximation can diverge."
+    rubric: "Should mention that the network uses its own outputs as targets, creating a non-stationary regression problem where errors can amplify."
+    explanation: "When the network is updated online, its own outputs become the targets, creating a non-stationary regression problem where errors can amplify and propagate through the bootstrapping loop."
+    tags: [bootstrapping, divergence, function_approximation]

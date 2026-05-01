@@ -1,0 +1,598 @@
+{
+  "student_id": "default",
+  "started_at": "2026-04-30T20:45:55.689Z",
+  "weeks": {
+    "1": {
+      "status": "in_progress",
+      "days": {
+        "1": {
+          "status": "passed",
+          "best_score": 1,
+          "attempts": 2,
+          "last_attempt_at": "2026-05-01T12:30:53.144Z",
+          "weak_tags": [],
+          "last_result": {
+            "week": 1,
+            "day": 1,
+            "score": 1,
+            "passed": true,
+            "total_questions": 5,
+            "correct_count": 4,
+            "graded_answers": [
+              {
+                "question_id": "w1d1_q1",
+                "correct": true,
+                "user_answer": 0,
+                "correct_answer": 0,
+                "explanation": "The Bellman optimality equation is a fixed-point equation: V*(s) = max_a E[r + γV*(s')]. It recursively defines the optimal value of a state in terms of the optimal values of successor states.",
+                "tags": [
+                  "bellman",
+                  "theory",
+                  "mdp"
+                ]
+              },
+              {
+                "question_id": "w1d1_q2",
+                "correct": true,
+                "user_answer": 0,
+                "correct_answer": 0,
+                "explanation": "The Bellman operator T satisfies ||T(V1) - T(V2)||_∞ ≤ γ||V1 - V2||_∞. Since γ < 1, it is a contraction in the sup-norm, guaranteeing convergence to a unique fixed point by the Banach fixed-point theorem.",
+                "tags": [
+                  "contraction",
+                  "theory",
+                  "fixed_point"
+                ]
+              },
+              {
+                "question_id": "w1d1_q3",
+                "correct": true,
+                "user_answer": 5.5,
+                "correct_answer": 5.5,
+                "explanation": "The Bellman backup is r + γV(s') = 1 + 0.9 × 5 = 5.5. This is the expected return for taking this action in this state.",
+                "tags": [
+                  "bellman",
+                  "gridworld",
+                  "numeric"
+                ]
+              },
+              {
+                "question_id": "w1d1_q4",
+                "correct": true,
+                "user_answer": 0,
+                "correct_answer": 0,
+                "explanation": "Banach fixed-point theorem: a contraction mapping on a complete metric space has exactly one fixed point, and iterating the mapping from any starting point converges to it.",
+                "tags": [
+                  "contraction",
+                  "theory",
+                  "fixed_point"
+                ]
+              },
+              {
+                "question_id": "w1d1_q5",
+                "correct": false,
+                "user_answer": "i love adusaur",
+                "explanation": "When the network is updated online, its own outputs become the targets, creating a non-stationary regression problem where errors can amplify and propagate through the bootstrapping loop.",
+                "tags": [
+                  "bootstrapping",
+                  "divergence",
+                  "function_approximation"
+                ],
+                "grading_status": "pending"
+              }
+            ],
+            "weak_tags": []
+          }
+        },
+        "2": {
+          "status": "failed_last",
+          "best_score": 0.25,
+          "attempts": 1,
+          "last_attempt_at": "2026-04-30T20:50:23.859Z",
+          "weak_tags": [
+            "value_iteration",
+            "bellman",
+            "theory",
+            "contraction",
+            "numeric",
+            "norms",
+            "convergence"
+          ],
+          "last_result": {
+            "week": 1,
+            "day": 2,
+            "score": 0.25,
+            "passed": false,
+            "total_questions": 5,
+            "correct_count": 1,
+            "graded_answers": [
+              {
+                "question_id": "w1d2_q1",
+                "correct": false,
+                "user_answer": 1,
+                "correct_answer": 0,
+                "explanation": "Value iteration repeatedly applies the Bellman optimality backup: V_{k+1}(s) = max_a Σ_s' P(s'|s,a)[R + γV_k(s')]. This is just iterating the Bellman operator.",
+                "tags": [
+                  "value_iteration",
+                  "bellman",
+                  "theory"
+                ]
+              },
+              {
+                "question_id": "w1d2_q2",
+                "correct": false,
+                "user_answer": 5,
+                "correct_answer": 9,
+                "explanation": "Since the Bellman operator is a contraction with factor γ, ||T(V_k) - V*||_∞ ≤ γ||V_k - V*||_∞ = 0.9 × 10 = 9.",
+                "tags": [
+                  "contraction",
+                  "value_iteration",
+                  "numeric"
+                ]
+              },
+              {
+                "question_id": "w1d2_q3",
+                "correct": true,
+                "user_answer": 0,
+                "correct_answer": 0,
+                "explanation": "Policy iteration alternates between full policy evaluation (solving linear equations for a fixed policy) and greedy policy improvement. Each policy improvement makes a potentially large jump to a better policy, whereas value iteration makes smaller incremental updates.",
+                "tags": [
+                  "policy_iteration",
+                  "value_iteration",
+                  "theory"
+                ]
+              },
+              {
+                "question_id": "w1d2_q4",
+                "correct": false,
+                "user_answer": "wrong",
+                "explanation": "The Bellman expectation equation computes the value of a state under a fixed policy (averaging over policy actions), while the Bellman optimality equation computes the best possible value by maximizing over actions.",
+                "tags": [
+                  "bellman",
+                  "theory",
+                  "expectation_vs_optimality"
+                ],
+                "grading_status": "pending"
+              },
+              {
+                "question_id": "w1d2_q5",
+                "correct": false,
+                "user_answer": 2,
+                "correct_answer": 0,
+                "explanation": "The sup-norm ||V||_∞ = max_s |V(s)| bounds the maximum error across any single state. This is natural for RL because we care about the worst-case approximation error.",
+                "tags": [
+                  "norms",
+                  "theory",
+                  "convergence"
+                ]
+              }
+            ],
+            "weak_tags": [
+              "value_iteration",
+              "bellman",
+              "theory",
+              "contraction",
+              "numeric",
+              "norms",
+              "convergence"
+            ]
+          }
+        },
+        "3": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "4": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "5": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "6": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "7": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        }
+      }
+    },
+    "2": {
+      "status": "locked",
+      "days": {
+        "1": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "2": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "3": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "4": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "5": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "6": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "7": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        }
+      }
+    },
+    "3": {
+      "status": "locked",
+      "days": {
+        "1": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "2": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "3": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "4": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "5": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "6": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "7": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        }
+      }
+    },
+    "4": {
+      "status": "locked",
+      "days": {
+        "1": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "2": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "3": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "4": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "5": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "6": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "7": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        }
+      }
+    },
+    "5": {
+      "status": "locked",
+      "days": {
+        "1": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "2": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "3": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "4": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "5": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "6": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "7": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        }
+      }
+    },
+    "6": {
+      "status": "locked",
+      "days": {
+        "1": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "2": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "3": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "4": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "5": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "6": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "7": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        }
+      }
+    },
+    "7": {
+      "status": "locked",
+      "days": {
+        "1": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "2": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "3": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "4": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "5": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "6": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "7": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        }
+      }
+    },
+    "8": {
+      "status": "locked",
+      "days": {
+        "1": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "2": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "3": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "4": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "5": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "6": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        },
+        "7": {
+          "status": "locked",
+          "best_score": 0,
+          "attempts": 0,
+          "last_attempt_at": null,
+          "weak_tags": []
+        }
+      }
+    }
+  },
+  "total_attempts": 3,
+  "current_streak_days": 1
+}

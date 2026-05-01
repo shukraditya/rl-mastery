@@ -1,0 +1,56 @@
+week: 1
+day: 2
+title: "The Bellman Operator as Contraction"
+description: "Deep dive into why the Bellman operator is a contraction and what that implies for value iteration."
+passing_threshold: 0.80
+questions:
+  - id: w1d2_q1
+    type: multiple_choice
+    text: "Value iteration is equivalent to:"
+    options:
+      - "Repeatedly applying the Bellman optimality operator until convergence"
+      - "Sampling trajectories and averaging returns"
+      - "Fitting a neural network to Monte Carlo targets"
+      - "Policy evaluation followed by policy improvement"
+    correct_index: 0
+    explanation: "Value iteration repeatedly applies the Bellman optimality backup: V_{k+1}(s) = max_a Σ_s' P(s'|s,a)[R + γV_k(s')]. This is just iterating the Bellman operator."
+    tags: [value_iteration, bellman, theory]
+
+  - id: w1d2_q2
+    type: numeric
+    text: "If ||V_k - V*||_∞ = 10 and γ = 0.9, what is the tightest upper bound on ||V_{k+1} - V*||_∞ after one Bellman optimality backup?"
+    correct: 9
+    tolerance: 0.01
+    explanation: "Since the Bellman operator is a contraction with factor γ, ||T(V_k) - V*||_∞ ≤ γ||V_k - V*||_∞ = 0.9 × 10 = 9."
+    tags: [contraction, value_iteration, numeric]
+
+  - id: w1d2_q3
+    type: multiple_choice
+    text: "Why does policy iteration typically converge in fewer iterations than value iteration?"
+    options:
+      - "Policy iteration performs explicit policy improvement steps that jump farther in policy space"
+      - "Policy iteration uses a larger learning rate"
+      - "Policy iteration is model-free"
+      - "Policy iteration bootstraps more aggressively"
+    correct_index: 0
+    explanation: "Policy iteration alternates between full policy evaluation (solving linear equations for a fixed policy) and greedy policy improvement. Each policy improvement makes a potentially large jump to a better policy, whereas value iteration makes smaller incremental updates."
+    tags: [policy_iteration, value_iteration, theory]
+
+  - id: w1d2_q4
+    type: free_text
+    text: "Describe the difference between the Bellman expectation equation and the Bellman optimality equation in one sentence."
+    rubric: "Expectation equation averages over a fixed policy; optimality equation takes the max over actions."
+    explanation: "The Bellman expectation equation computes the value of a state under a fixed policy (averaging over policy actions), while the Bellman optimality equation computes the best possible value by maximizing over actions."
+    tags: [bellman, theory, expectation_vs_optimality]
+
+  - id: w1d2_q5
+    type: multiple_choice
+    text: "The sup-norm (max-norm) is used in RL convergence proofs because:"
+    options:
+      - "It bounds the worst-case error across all states simultaneously"
+      - "It corresponds to the mean squared error"
+      - "It is the only norm preserved under matrix multiplication"
+      - "It is equivalent to the L2 norm for finite state spaces"
+    correct_index: 0
+    explanation: "The sup-norm ||V||_∞ = max_s |V(s)| bounds the maximum error across any single state. This is natural for RL because we care about the worst-case approximation error."
+    tags: [norms, theory, convergence]

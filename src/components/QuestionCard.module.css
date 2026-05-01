@@ -1,0 +1,166 @@
+.container {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.progressText {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.typeTag {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  color: var(--muted);
+}
+
+.questionText {
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 1.5rem;
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem 0;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-size: 1rem;
+  color: var(--text);
+  width: 100%;
+  font-family: var(--font-serif);
+}
+
+.option:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.option:hover {
+  color: var(--accent);
+}
+
+.optionSelected {
+  color: var(--accent);
+}
+
+.optionLetter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  min-width: 1.5rem;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.optionLetterSelected {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.optionText {
+  line-height: 1.5;
+  padding-top: 0.125rem;
+}
+
+.inputWrap {
+  margin-bottom: 1.5rem;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  font-size: 1rem;
+  font-family: var(--font-serif);
+  color: var(--text);
+  background: var(--paper);
+  outline: none;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--accent);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--muted);
+}
+
+.textarea {
+  resize: vertical;
+  line-height: 1.6;
+  min-height: 6rem;
+}
+
+.textareaHint {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 0.625rem 1.25rem;
+  background: var(--text);
+  color: var(--paper);
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: var(--secondary);
+}
+
+.submitBtn:disabled {
+  background: var(--border);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 1rem 0;
+  }
+  .questionText {
+    font-size: 1rem;
+  }
+}

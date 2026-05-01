@@ -1,0 +1,36 @@
+.page {
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.center {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  color: var(--muted);
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.backLink {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--secondary);
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--text);
+}
+
+.progressText {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
