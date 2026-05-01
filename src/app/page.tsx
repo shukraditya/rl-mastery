@@ -59,22 +59,22 @@ export default async function Dashboard() {
         </section>
 
         <section className={styles.features}>
-          <div className={styles.feature}>
+          <div>
             <div className={styles.featureTitle}>Active Recall</div>
             <div className={styles.featureDesc}>
-              Daily quizzes force you to retrieve concepts, not just re-read them.
+              Retrieve concepts daily instead of passively re-reading.
             </div>
           </div>
-          <div className={styles.feature}>
+          <div>
             <div className={styles.featureTitle}>Adaptive Progression</div>
             <div className={styles.featureDesc}>
-              Pass a day to unlock the next. Weak tags show exactly what to revisit.
+              Pass a day to unlock the next. Missed topics are tagged for review.
             </div>
           </div>
-          <div className={styles.feature}>
-            <div className={styles.featureTitle}>Production-Ready</div>
+          <div>
+            <div className={styles.featureTitle}>Production Relevant</div>
             <div className={styles.featureDesc}>
-              From DQN to GRPO — learn the algorithms behind modern LLM training pipelines.
+              DQN to GRPO — the algorithms that power modern LLM training.
             </div>
           </div>
         </section>

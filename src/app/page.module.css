@@ -1,39 +1,32 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 3.5rem;
 }
 
 .hero {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 2rem;
-  padding: 1rem 0 1.5rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.heroText {
-  min-width: 0;
+  text-align: center;
+  padding-top: 2rem;
 }
 
 .heroTitle {
   font-size: 2rem;
-  line-height: 1.25;
-  margin-bottom: 0.5rem;
+  line-height: 1.3;
+  margin-bottom: 0.75rem;
   letter-spacing: -0.01em;
 }
 
 .heroSubtitle {
-  font-size: 1rem;
+  font-size: 1.0625rem;
   color: var(--secondary);
-  line-height: 1.5;
-  margin: 0;
+  line-height: 1.6;
+  margin: 0 auto 1.75rem;
+  max-width: 28rem;
 }
 
 .heroCta {
   display: flex;
-  align-items: center;
+  justify-content: center;
 }
 
 .cta {
@@ -46,7 +39,6 @@
   font-weight: 500;
   text-decoration: none;
   letter-spacing: 0.02em;
-  white-space: nowrap;
 }
 
 .cta:hover {
@@ -57,7 +49,8 @@
 
 .metaStrip {
   display: flex;
-  gap: 1.5rem;
+  justify-content: center;
+  gap: 2.5rem;
   font-family: var(--font-sans);
   font-size: 0.8125rem;
   color: var(--muted);
@@ -67,7 +60,7 @@
 
 .metaStrip span {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 0.4rem;
 }
 
@@ -84,17 +77,17 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .curriculumGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .weekCard {
-  padding: 1rem;
+  padding: 1.25rem;
   border: 1px solid var(--border);
   background: var(--card);
 }
@@ -106,24 +99,20 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
 }
 
 .weekTitle {
   font-size: 0.9375rem;
-  line-height: 1.35;
+  line-height: 1.4;
   color: var(--text);
 }
 
 .features {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-
-.feature {
-  border-left: 2px solid var(--border);
-  padding-left: 1rem;
+  gap: 2rem;
+  text-align: center;
 }
 
 .featureTitle {
@@ -133,25 +122,13 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
 }
 
 .featureDesc {
   font-size: 0.9375rem;
   line-height: 1.5;
   color: var(--secondary);
-}
-
-.bottomCta {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding-top: 0.5rem;
-}
-
-.bottomHint {
-  font-size: 0.875rem;
-  color: var(--muted);
 }
 
 .stats {
@@ -172,15 +149,15 @@
 }
 
 @media (max-width: 768px) {
-  .hero {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
   .curriculumGrid {
     grid-template-columns: repeat(2, 1fr);
   }
   .features {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .metaStrip {
+    gap: 1.5rem;
   }
 }
 
