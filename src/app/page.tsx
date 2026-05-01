@@ -34,7 +34,7 @@ export default async function Dashboard() {
             </p>
           </div>
           <div className={styles.heroCta}>
-            <a href="/api/auth/signin" className={styles.cta}>
+            <a href="/api/auth/signin/google" className={styles.cta}>
               Sign in with Google
             </a>
           </div>
