@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
 import "./globals.css";
 import "katex/dist/katex.min.css";
 import ThemeToggle from "@/components/ThemeToggle";
 import AuthButton from "@/components/AuthButton";
 
 export const metadata: Metadata = {
-  title: "RL Mastery Quiz",
-  description: "Daily quizzes for the RL Mastery curriculum",
+  title: "RL Mastery",
+  description: "8 weeks. 56 days. Build deep intuition for reinforcement learning.",
 };
 
 const themeScript = `
@@ -17,11 +18,14 @@ const themeScript = `
   })();
 `;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+  const isAuthed = !!session?.user;
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -33,8 +37,12 @@ export default function RootLayout({
             <nav className="app-nav">
               <a href="/" className="nav-brand">RL Mastery</a>
               <div className="nav-links">
-                <a href="/" className="nav-link">Dashboard</a>
-                <a href="/progress" className="nav-link">Progress</a>
+                {isAuthed && (
+                  <>
+                    <a href="/" className="nav-link">Dashboard</a>
+                    <a href="/progress" className="nav-link">Progress</a>
+                  </>
+                )}
               </div>
               <div className="nav-actions">
                 <ThemeToggle />

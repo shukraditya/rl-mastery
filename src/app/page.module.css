@@ -1,41 +1,100 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 3rem;
 }
 
 .hero {
-  padding-bottom: 1.5rem;
+  padding: 2rem 0 3rem;
   border-bottom: 1px solid var(--border);
 }
 
 .heroTitle {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
 }
 
 .heroSubtitle {
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   color: var(--secondary);
-  margin-bottom: 1.5rem;
-  max-width: 32rem;
+  margin-bottom: 2rem;
+  max-width: 36rem;
+  line-height: 1.6;
 }
 
 .cta {
   display: inline-block;
-  padding: 0.5rem 1.25rem;
+  padding: 0.6rem 1.5rem;
   border: 1px solid var(--text);
   color: var(--text);
   font-family: var(--font-sans);
   font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
+  letter-spacing: 0.02em;
 }
 
 .cta:hover {
   background: var(--text);
   color: var(--paper);
   text-decoration: none;
+}
+
+.bodyText {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--text);
+  max-width: 40rem;
+}
+
+.bodyText p + p {
+  margin-top: 1.25rem;
+}
+
+.section {
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.curriculumGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.weekCard {
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.weekNum {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.weekTitle {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--text);
 }
 
 .stats {
@@ -49,16 +108,6 @@
   letter-spacing: 0.04em;
 }
 
-.sectionTitle {
-  font-size: 0.8125rem;
-  font-family: var(--font-sans);
-  font-weight: 500;
-  color: var(--secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 1rem;
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
@@ -68,5 +117,11 @@
 @media (max-width: 640px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+  .curriculumGrid {
+    grid-template-columns: 1fr;
+  }
+  .heroTitle {
+    font-size: 2rem;
   }
 }

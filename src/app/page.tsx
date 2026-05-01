@@ -7,6 +7,18 @@ import styles from './page.module.css';
 
 export const dynamic = 'force-dynamic';
 
+const themes = [
+  '',
+  'The Bellman Contract',
+  'Deep Q-Networks & Non-Stationarity',
+  'Policy Gradients & The LLM Connection',
+  'PPO — Build The Engine',
+  'Reward Modeling & RLHF Theory',
+  'DPO — The Closed-Form Revolution',
+  'Reasoning RL — GRPO & R1-Style Training',
+  'Capstone — Ship an Artifact',
+];
+
 export default async function Dashboard() {
   const session = await auth();
   const userId = session?.user?.email ?? null;
@@ -15,12 +27,55 @@ export default async function Dashboard() {
     return (
       <div className={styles.page}>
         <section className={styles.hero}>
-          <h1 className={styles.heroTitle}>RL Mastery</h1>
+          <h1 className={styles.heroTitle}>Build Deep Intuition for Reinforcement Learning</h1>
           <p className={styles.heroSubtitle}>
-            8 weeks. 56 days. Build deep intuition for reinforcement learning.
+            8 weeks. 56 days. One quiz at a time. RL Mastery is a structured curriculum
+            designed to take you from Bellman equations to production-grade RLHF systems.
           </p>
-          <a href="/api/auth/signin" className={styles.cta}>
-            Sign in with Google
+          <a href="/api/auth/signin" className={styles.cta}>Sign in with Google</a>
+        </section>
+
+        <section className={styles.section}>
+          <div className={styles.bodyText}>
+            <p>
+              Reinforcement learning is the engine behind modern AI breakthroughs — from
+              AlphaGo to ChatGPT, from robotics to reasoning models. Yet most learners
+              get lost in the math without ever building the gut feeling for why these
+              algorithms work. RL Mastery fixes that.
+            </p>
+            <p>
+              Every day you tackle a short, targeted quiz that forces active recall on
+              the concepts that matter. No passive video watching. No endless notebooks.
+              Just consistent, deliberate practice across value-based methods, policy
+              gradients, proximal policy optimization, reward modeling, direct preference
+              optimization, and the latest reasoning RL techniques powering models like DeepSeek-R1.
+            </p>
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>The Curriculum</h2>
+          <div className={styles.curriculumGrid}>
+            {themes.slice(1).map((title, i) => (
+              <div key={i} className={styles.weekCard}>
+                <div className={styles.weekNum}>Week {i + 1}</div>
+                <div className={styles.weekTitle}>{title}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <div className={styles.bodyText}>
+            <p>
+              Progress is tracked per-user and persists across sessions. Pass a day to
+              unlock the next. Miss a question and the system tags your weak areas so
+              you know exactly what to revisit. By the end of 56 days, you will not just
+              understand RL — you will think in rewards, policies, and advantage estimates.
+            </p>
+          </div>
+          <a href="/api/auth/signin" className={styles.cta} style={{ marginTop: '1.5rem' }}>
+            Start Learning — Sign in with Google
           </a>
         </section>
       </div>
